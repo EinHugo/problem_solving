@@ -1,0 +1,66 @@
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+// https://www.swexpertacademy.com/main/code/problem/problemDetail.do?contestProbId=AWT-hF8KdBADFAVT&categoryId=AWT-hF8KdBADFAVT&categoryType=CODE
+public class Solution {
+	static int MAX = 1000000;
+	static int L, R;
+	static long[] fx = new long[MAX + 1];
+	static boolean[] already = new boolean[MAX + 1];
+
+	public static void main(String[] args) throws Exception {
+		System.setIn(new FileInputStream("res/sample_input.txt"));
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+
+		fx[3] = 4;
+		already[3] = true;
+
+		for (int i = 1; i <= 10000; i++) {
+			if (!already[i]) {
+				getOdds(i);
+			}
+		}
+
+		for (int i = 1; i <= 100; i++) {
+			System.out.println(i + " : " + fx[i]);
+		}
+
+		int T = Integer.parseInt(in.readLine().trim());
+		StringTokenizer tokens = null;
+
+		for (int testCase = 1; testCase <= T; testCase++) {
+			tokens = new StringTokenizer(in.readLine().trim());
+			L = Integer.parseInt(tokens.nextToken());
+			R = Integer.parseInt(tokens.nextToken());
+
+			System.out.println("#" + testCase + " ");
+		}
+	}
+
+	static void getOdds(int val) {
+
+		if (val % 2 == 0) { // 짝수라면 2로 나눈 값
+			fx[val] = fx[val / 2];
+			already[val] = true;
+			return;
+		}
+
+		if (val % 3 == 0) { // 3의 배수라면 3으로 나눈 값 + 자기 자신
+			fx[val] = fx[val % 3] + val;
+			already[val] = true;
+			return;
+		}
+
+		// 나머지는 다 홀수이고 3의 배수가 아니므로 일일이 구해야함
+		fx[val] = val;
+		for (int i = 1; i <= val / 2; i += 2) {
+			if (val % i == 0) {
+				fx[val] += i;
+				already[val] = true;
+			}
+		}
+
+	}
+}

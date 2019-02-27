@@ -1,0 +1,65 @@
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+// https://www.swexpertacademy.com/main/code/problem/problemDetail.do?contestProbId=AWNcJ2sapZMDFAV8&categoryId=AWNcJ2sapZMDFAV8&categoryType=CODE&&&
+
+public class Solution {
+	
+	public static void main(String[] args) throws Exception {
+		System.setIn(new FileInputStream("res/sample_input.txt"));
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+		
+		int T = Integer.parseInt(in.readLine().trim());
+		int[] takes = new int[401];
+		StringTokenizer tokens = null;
+		int[] fromTo = new int[2];
+		
+		for (int testCase = 1; testCase <= T; testCase++) {
+			int N = Integer.parseInt(in.readLine().trim());
+			int max = 0;
+			
+			for (int i = 0; i < N; i++) {
+				tokens = new StringTokenizer(in.readLine());
+				fromTo[0] = Integer.parseInt(tokens.nextToken());
+				fromTo[1] = Integer.parseInt(tokens.nextToken());
+				int from = Math.min(fromTo[0], fromTo[1]), to = Math.max(fromTo[1],fromTo[0]);
+				if(from%2 == 0) {
+					from--;
+				}
+				if(to%2 == 1) {
+					to++;
+				}
+				for (; from <= to; from++) {
+					
+					takes[from]++;
+					if(takes[from] > max) {
+						max = takes[from];
+					}
+				}
+			}
+			
+//			for (int i = 1; i <= 400; i++) {
+//				System.out.print(takes[i] + " ");
+//			}
+//			System.out.println();
+			
+			System.out.println("#" + testCase + " " + max);
+			Arrays.fill(takes, 0);
+		}
+		
+	}
+}
+
+
+/*
+[입력]
+입력은 T(≤10)개의 테스트 케이스로 되어 있다. 각 테스트 케이스의 첫 줄에는 돌아가야 할 학생들의 수 N이 주어진다.
+
+다음 N 줄에는 각 학생의 현재 방 번호(≤400)와 돌아가야 할 방의 번호(≤400)가 주어진다. 주어지는 2N개의 방 번호 중 중복되는 것은 없다.
+
+[출력]
+테스트 케이스 T에 대한 결과는 “#T ”을 찍고, 각 테스트 케이스마다 필요한 시간을 한 줄에 하나씩 출력한다.
+*/

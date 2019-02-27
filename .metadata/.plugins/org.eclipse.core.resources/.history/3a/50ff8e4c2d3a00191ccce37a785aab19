@@ -1,0 +1,90 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.StringTokenizer;
+
+public class Solution {
+	
+	static Map<Integer, Node> tree;
+	static BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out));
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer token;
+		tree = new HashMap<>();
+		Node newNode;
+		int nodeKey;
+		
+		for (int testCase = 1; testCase <= 10; testCase++) {
+			tree.clear();
+			
+			int vertexNum = Integer.parseInt(in.readLine().trim());
+			for (int i = 0; i < vertexNum; i++) {
+				
+				token = new StringTokenizer(in.readLine());
+				
+				nodeKey = Integer.parseInt(token.nextToken());
+				
+				newNode = new Node(nodeKey, token.nextToken());
+				if(token.hasMoreTokens())
+					newNode.leftChild = Integer.parseInt(token.nextToken());
+					if(token.hasMoreTokens()) 
+						newNode.rightChild = Integer.parseInt(token.nextToken());
+					
+				tree.put(nodeKey, newNode);
+				
+			}
+			
+			out.write("#" + testCase + " ");
+//			System.out.print("#" + testCase + " ");
+			inOrder(1);
+			out.flush();
+			System.out.println();
+		}
+	}
+
+	public static void inOrder(int n) throws IOException {
+		Node node = tree.get(n);
+		if (node != null) {
+			inOrder(node.leftChild);
+//			System.out.print(node.data);
+			out.write(node.data);
+			inOrder(node.rightChild);
+		}
+	}
+}
+
+class Node {
+	int key;
+	String data;
+	int leftChild;
+	int rightChild;
+
+	public Node(int nodeKey, String data) {
+		this.key = nodeKey;
+		this.data = data;
+	}
+}
+
+/*
+ * [입력]
+ * 
+ * 각 테스트 케이스의 첫 줄에는 각 케이스의 트리가 갖는 정점의 총 수 N(1≤N≤100)이 주어진다. 그 다음 N줄에 걸쳐 각각의 정점
+ * 정보가 주어진다. 해당 정점에 대한 정보는 해당 정점의 알파벳, 해당 정점의 왼쪽 자식, 오른쪽 자식의 정점번호가 차례대로 주어진다.
+ * 정점번호는 1부터 N까지의 정수로 구분된다. 입력에서 정점 번호를 매기는 규칙은 위와 같으며, 루트 정점의 번호는 반드시 1이다. 입력에서
+ * 이웃한 알파벳이나 자식 정점의 번호는 모두 공백으로 구분된다. 위의 예시에서, 알파벳 S가 7번 정점에 해당하면 “7 S”으로 주어지고,
+ * 알파벳 ‘F’가 2번 정점에 해당하면 두 자식이 각각 알파벳 ‘O’인 4번 정점과 알파벳 ‘T’인 5번 정점이므로 “2 F 4 5”로
+ * 주어진다.
+ * 
+ * 총 10개의 테스트 케이스가 주어진다,
+ * 
+ * [출력]
+ * 
+ * #부호와 함께 테스트 케이스의 번호를 출력하고, 공백 문자 후 테스트 케이스의 답을 출력한다.
+ */

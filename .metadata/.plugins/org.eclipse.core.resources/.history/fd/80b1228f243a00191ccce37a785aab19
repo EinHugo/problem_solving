@@ -1,0 +1,117 @@
+package com.algo.week0110;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+public class Solution2814_못품 { // #2814. 최장 경로
+
+	static int N, M, pathLength;
+
+	public static void main(String[] args) throws FileNotFoundException {
+
+		System.setIn(new FileInputStream("res/sample_input2814.txt"));
+		// 입력 조절
+
+		Scanner sc = new Scanner(System.in);
+		int T = sc.nextInt();
+
+		for (int test = 1; test <= T; test++) {
+
+			///////////////////////////////////////////
+			///////////////////////////////////////////
+
+			N = sc.nextInt(); // vertex
+			M = sc.nextInt(); // edge
+			pathLength = 1;
+
+			boolean[][] edges = new boolean[N + 1][N + 1];
+			int[] heuristic = new int[N + 1];
+
+			for (int i = 1; i <= M; i++) { // get input
+				int x = sc.nextInt();
+				int y = sc.nextInt();
+				edges[x][y] = true;
+				edges[y][x] = true;
+				heuristic[x]++;
+				heuristic[y]++;
+			}
+
+			for (int i = 1; i <= N; i++) {
+				edges[0][i] = true;
+				edges[i][0] = true;
+			}
+
+//			for (int i = 0; i <= N; i++) {
+//				for (int j = 0; j <= N; j++) {
+//					System.out.print(edges[i][j] + " ");
+//				}
+//				System.out.println();
+//			}
+
+			int point = 0;
+			while (true) {
+				point = GoNext(point, edges, heuristic);
+//				System.out.print(point + " ");
+				if (point == -1)
+					break;
+			}
+			System.out.println("#" + test + " " + pathLength);
+
+		}
+	}
+
+	
+	private static int GoNext(int point, boolean[][] edges, int[] heuristic) {
+		int minValue = 100, tmp = 0, goodIdx = -1;
+		boolean isLastStep = false;
+
+		for (int i = 1; i <= N; i++) {
+			if (edges[point][i]) {
+				tmp = heuristic[i];
+				if (1 < tmp && tmp < minValue) {
+					goodIdx = i;
+					minValue = tmp;
+				} else if (tmp == 1) {
+					for (int i2 = 1; i2 <= N; i2++) {
+						if (edges[point][i]) {
+							if (1 < heuristic[i2])
+								return i;
+						}
+					}
+					
+					isLastStep = true;
+					
+				}
+			}
+		}
+		if (goodIdx == -1 && isLastStep) {
+			pathLength++;
+			return -1;
+		} else if (goodIdx == -1) {
+			return -1;
+		}
+
+		pathLength++;
+		heuristic[goodIdx] = 0;
+		edges[point][goodIdx] = false;
+		edges[goodIdx][point] = false;
+		return goodIdx;
+	}
+
+}
+
+/*
+ * 
+ * N개의 정점과 M개의 간선으로 구성된 가중치가 없는 무방향 그래프에서의 최장 경로의 길이를 계산하자. 정점의 번호는 1번부터 N번까지
+ * 순서대로 부여되어 있다. 경로에는 같은 정점의 번호가 2번 이상 등장할 수 없으며, 경로 상의 인접한 점들 사이에는 반드시 두 정점을
+ * 연결하는 간선이 존재해야 한다. 경로의 길이는 경로 상에 등장하는 정점의 개수를 나타낸다.
+ * 
+ * [입력] 첫 번째 줄에 테스트 케이스의 수 T가 주어진다. 각 테스트 케이스의 첫 번째 줄에는 두 개의 자연수 N M(1 ≤ N ≤ 10,
+ * 0 ≤ M ≤ 20)이 주어진다. 두 번째 줄부터 M개의 줄에 걸쳐서 그래프의 간선 정보를 나타내는 두 정수 x y(1 ≤ x, y ≤
+ * N)이 주어진다. x와 y는 서로 다른 정수이며, 두 정점 사이에 여러 간선이 존재할 수 있다.
+ * 
+ * [출력] 각 테스트 케이스마다 ‘#x ’(x는 테스트케이스 번호를 의미하며 1부터 시작한다)를 출력하고, 그래프에서의 최장 경로의 길이를
+ * 출력한다.
+ * 
+ */

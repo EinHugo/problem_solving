@@ -1,0 +1,20 @@
+import java.sql.Time;
+import java.util.ArrayList;
+
+public class arr {
+	
+	
+	public static void main(String[] args) {
+		ArrayList<Integer> a = null;
+		
+		long start = System.currentTimeMillis();
+		
+		
+		long end =System.currentTimeMillis();
+		
+		System.out.println(end-start);
+	}
+	
+	
+
+}
