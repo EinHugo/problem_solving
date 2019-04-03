@@ -1,0 +1,17 @@
+1
+10
+A
+C
+A
+A
+A
+A
+B
+A
+C
+A
+
+
+ACAAAABACA
+
+#1 AACAAAABAC

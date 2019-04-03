@@ -1,0 +1,15 @@
+3
+abc
+aaa
+abcabc
+
+
+#1 3
+#2 6
+#3 9
+
+
+aaaaaaa
+0123210
+aaaaaa
+012210
