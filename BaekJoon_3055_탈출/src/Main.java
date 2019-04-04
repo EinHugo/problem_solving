@@ -60,6 +60,7 @@ public class Main {
 		
 		if(die) {
 			System.out.println("KAKTUS");
+//			System.out.println("impossible");
 		} else {
 			System.out.println(ans);
 		}
