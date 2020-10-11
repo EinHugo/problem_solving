@@ -1,3 +1,3 @@
 # problem_solving
 
-Solving Algorithm for time killing
+Solving Problems through kinds of algorithms
